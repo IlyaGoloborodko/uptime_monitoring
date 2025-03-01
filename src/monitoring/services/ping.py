@@ -29,17 +29,15 @@ class Ping:
             response.raise_for_status()
             result = dict(
                 status_code=response.status_code,
-                content=response.content
             )
         except RequestError as exc:
             result = dict(
-                error=f"An error occurred while requesting {exc.request.url!r}.",
+                error=str(exc),
             )
         except HTTPStatusError as exc:
             result = dict(
                 status_code=exc.response.status_code,
-                error=f"Error response {exc.response.status_code} while requesting {exc.request.url!r}.",
-                reason=exc.response.reason_phrase,
+                error=str(exc),
             )
 
         return result

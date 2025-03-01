@@ -10,8 +10,7 @@ app = FastAPI()
 @app.get("/ping/")
 async def ping_url(url: str,
                    method: Literal['get', 'post', 'put', 'delete'],
-                   params: dict | None = None,
                    ) -> dict:
-    ping = Ping(url=url, method=method, params=params)
+    ping = Ping(url=url, method=method)
     result = await ping.process()
     return dict(result=result)
