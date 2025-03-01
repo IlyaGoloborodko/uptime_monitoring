@@ -2,7 +2,7 @@ from typing import Literal
 
 from fastapi import FastAPI
 
-from src.monitoring.services.ping import Ping
+from monitoring.services.ping import Ping
 
 app = FastAPI()
 
