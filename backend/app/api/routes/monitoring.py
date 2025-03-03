@@ -1,8 +1,9 @@
-from typing import Literal
+from typing import Literal, Type
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from backend.app.monitoring import RequestConfig
 from backend.app.monitoring.services.ping import Ping
 from backend.app.monitoring.models import RequestConfigBase, RequestConfig
 
@@ -32,6 +33,25 @@ async def save_config(
 
     return db_config
 
-# def update_config
+
+@router.post("/update_config/")
+async def update_config(
+        config_id: str,
+        config: RequestConfigBase,
+        session: AsyncSession = Depends(get_session)
+) -> Type[RequestConfig]:
+    db_config = await session.get(RequestConfig, config_id)
+    if not db_config:
+        raise HTTPException(status_code=404, detail="Config not found")
+    db_config_data = RequestConfig(**config.dict()).model_dump(exclude_unset=True)
+
+    db_config.sqlmodel_update(db_config_data)
+
+    session.add(db_config)
+    await session.commit()
+    await session.refresh(db_config)
+
+    return db_config
+
 
 # def delete_config
