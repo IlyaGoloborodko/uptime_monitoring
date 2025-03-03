@@ -9,4 +9,3 @@ class RequestConfig(SQLModel, table=True):
     url: str
     method: str
     params: Optional[str] = Field(default=None, nullable=True)
-
