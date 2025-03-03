@@ -1,7 +1,12 @@
 from typing import Literal
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from backend.app.monitoring.services.ping import Ping
+from backend.app.monitoring.models import RequestConfigBase, RequestConfig
+
+from backend.app.core.db import get_session
 
 router = APIRouter(prefix="/monitoring", tags=["monitoring"])
 
@@ -15,7 +20,17 @@ async def ping_url(url: str,
     return dict(result=result)
 
 
-# def save_config
+@router.post("/save_config/")
+async def save_config(
+        config: RequestConfigBase,
+        session: AsyncSession = Depends(get_session)
+) -> RequestConfig:
+    db_config = RequestConfig(**config.dict())
+    session.add(db_config)
+    await session.commit()
+    await session.refresh(db_config)
+
+    return db_config
 
 # def update_config
 

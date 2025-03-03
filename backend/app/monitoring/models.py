@@ -1,7 +1,7 @@
 import uuid
 
 from enum import Enum
-from typing import Optional, Literal
+from typing import Optional
 
 from sqlmodel import Field, SQLModel, JSON
 
@@ -13,8 +13,7 @@ class HTTPMethod(str, Enum):
     DELETE = 'delete'
 
 
-class RequestConfig(SQLModel, table=True):
-    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+class RequestConfigBase(SQLModel):
     # FK
     url: str
     method: HTTPMethod
@@ -31,3 +30,5 @@ class RequestConfig(SQLModel, table=True):
     retry_interval: int = Field(default=5, description='Interval between retries in seconds')
 
 
+class RequestConfig(RequestConfigBase, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
