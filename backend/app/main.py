@@ -8,12 +8,6 @@ from .monitoring.services.ping import Ping
 
 app = FastAPI()
 
-
-@app.on_event("startup")
-def on_startup():
-    create_db_and_tables()
-
-
 @app.get("/ping/")
 async def ping_url(url: str,
                    method: Literal['get', 'post', 'put', 'delete'],
