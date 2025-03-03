@@ -2,7 +2,6 @@ from typing import Literal
 
 from fastapi import FastAPI
 
-from backend.app.core.db import create_db_and_tables
 from .monitoring.services.ping import Ping
 
 
