@@ -34,12 +34,22 @@ async def save_config(
     return db_config
 
 
+@router.post("/get_config/")
+async def get_config(config_id: str,
+                     session: AsyncSession = Depends(get_session)
+                     ) -> RequestConfig:
+    db_config = await session.get(RequestConfig, config_id)
+    if not db_config:
+        raise HTTPException(status_code=404, detail="Config not found")
+    return db_config
+
+
 @router.post("/update_config/")
 async def update_config(
         config_id: str,
         config: RequestConfigBase,
         session: AsyncSession = Depends(get_session)
-) -> Type[RequestConfig]:
+) -> RequestConfig:
     db_config = await session.get(RequestConfig, config_id)
     if not db_config:
         raise HTTPException(status_code=404, detail="Config not found")
@@ -54,4 +64,13 @@ async def update_config(
     return db_config
 
 
-# def delete_config
+@router.post("/delete_config/")
+async def delete_config(config_id: str,
+                        session: AsyncSession = Depends(get_session)
+                        ) -> dict:
+    db_config = await session.get(RequestConfig, config_id)
+    if not db_config:
+        raise HTTPException(status_code=404, detail="Config not found")
+    await session.delete(db_config)
+    await session.commit()
+    return dict(ok=True)
