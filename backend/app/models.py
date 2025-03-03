@@ -1,1 +1,1 @@
-from monitoring.models import RequestConfig
+from .monitoring.models import RequestConfig
