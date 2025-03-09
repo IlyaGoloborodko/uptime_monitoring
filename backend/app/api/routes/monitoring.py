@@ -12,7 +12,7 @@ from backend.app.core.db import get_session
 router = APIRouter(prefix="/monitoring", tags=["monitoring"])
 
 
-@router.get("/ping/")
+@router.post("/ping/")
 async def ping_url(ping_config: Ping) -> dict:
     result = await ping_config.process()
     return dict(result=result)
@@ -31,7 +31,7 @@ async def save_config(
     return db_config
 
 
-@router.post("/get_config/")
+@router.get("/get_config/")
 async def get_config(config_id: str,
                      session: AsyncSession = Depends(get_session)
                      ) -> Type[RequestConfig]:
