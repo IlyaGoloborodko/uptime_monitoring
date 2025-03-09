@@ -1,10 +1,11 @@
-from typing import Literal, Type
+from typing import Literal, Type, Optional
 
+from pydantic import BaseModel, Field, HttpUrl
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.app.monitoring.services.ping import Ping
-from backend.app.monitoring import RequestConfigBase, RequestConfig
+from backend.app.monitoring.models import RequestConfigBase, RequestConfig, PingConfig
 
 from backend.app.core.db import get_session
 
@@ -12,11 +13,8 @@ router = APIRouter(prefix="/monitoring", tags=["monitoring"])
 
 
 @router.get("/ping/")
-async def ping_url(url: str,
-                   method: Literal['get', 'post', 'put', 'delete'],
-                   ) -> dict:
-    ping = Ping(url=url, method=method)
-    result = await ping.process()
+async def ping_url(ping_config: Ping) -> dict:
+    result = await ping_config.process()
     return dict(result=result)
 
 

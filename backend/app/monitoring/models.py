@@ -22,6 +22,14 @@ class RequestConfigBase(SQLModel):
     headers: Optional[dict] = Field(sa_type=JSON)
     content_type: Optional[str]
 
+
+class PingConfig(RequestConfigBase):
+    """Config for ping operations"""
+    timeout: int = Field(default=10)
+
+
+class WorkerConfigBase(RequestConfigBase):
+    """Base config for workers operations"""
     frequency: int = Field(default=60, description='Requests frequency in seconds')
     timeout: int = Field(default=10)
     is_active: bool = Field(default=False)
@@ -30,5 +38,5 @@ class RequestConfigBase(SQLModel):
     retry_interval: int = Field(default=5, description='Interval between retries in seconds')
 
 
-class RequestConfig(RequestConfigBase, table=True):
+class RequestConfig(WorkerConfigBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)

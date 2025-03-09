@@ -1,18 +1,11 @@
-from typing import Literal
-
 from httpx import AsyncClient
 # import Exceptions
 from httpx import RequestError, HTTPStatusError
 
+from backend.app.monitoring.models import PingConfig
 
-class Ping:
-    def __init__(self,
-                 url: str,
-                 method: Literal['get', 'post', 'put', 'delete'],
-                 params: dict = None):
-        self.url = self.safe_url(url=url)
-        self.method = method
-        self.params = params if params else {}
+
+class Ping(PingConfig):
 
     async def process(self):
         try:
