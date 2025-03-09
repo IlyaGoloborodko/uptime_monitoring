@@ -18,7 +18,6 @@ class RequestConfigBase(SQLModel):
     url: str
     method: HTTPMethod
     params: Optional[dict] = Field(sa_type=JSON)
-    body: Optional[dict] = Field(sa_type=JSON)
     headers: Optional[dict] = Field(sa_type=JSON)
     content_type: Optional[str]
 
