@@ -18,7 +18,7 @@ class Ping(PingConfig):
                       client: AsyncClient):
         http_method = getattr(client, self.method)
         try:
-            response = await http_method(url=self.url, params=self.params)
+            response = await http_method(url=self.safe_url(self.url), params=self.params)
             response.raise_for_status()
             result = dict(
                 status_code=response.status_code,
