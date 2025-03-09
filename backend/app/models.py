@@ -1,1 +1,1 @@
-from .monitoring import *
+from .monitoring.models import *

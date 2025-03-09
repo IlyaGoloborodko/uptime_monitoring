@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.app.monitoring.services.ping import Ping
-from backend.app.monitoring.models import RequestConfigBase, RequestConfig, PingConfig
+from backend.app.monitoring.models import RequestConfig, WorkerConfigBase
 
 from backend.app.core.db import get_session
 
@@ -20,7 +20,7 @@ async def ping_url(ping_config: Ping) -> dict:
 
 @router.post("/save_config/")
 async def save_config(
-        config: RequestConfigBase,
+        config: WorkerConfigBase,
         session: AsyncSession = Depends(get_session)
 ) -> RequestConfig:
     db_config = RequestConfig(**config.dict())
@@ -44,7 +44,7 @@ async def get_config(config_id: str,
 @router.post("/update_config/")
 async def update_config(
         config_id: str,
-        config: RequestConfigBase,
+        config: WorkerConfigBase,
         session: AsyncSession = Depends(get_session)
 ) -> RequestConfig:
     db_config = await session.get(RequestConfig, config_id)
