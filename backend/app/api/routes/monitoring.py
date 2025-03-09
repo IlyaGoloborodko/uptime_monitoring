@@ -1,6 +1,3 @@
-from typing import Literal, Type, Optional
-
-from pydantic import BaseModel, Field, HttpUrl
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 

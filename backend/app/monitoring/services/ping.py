@@ -1,5 +1,5 @@
 from httpx import AsyncClient
-# import Exceptions
+
 from httpx import RequestError, HTTPStatusError
 
 from backend.app.monitoring.models import PingConfig
