@@ -1,1 +1,1 @@
-from .models import RequestConfig
+from .models import RequestConfigBase, RequestConfig

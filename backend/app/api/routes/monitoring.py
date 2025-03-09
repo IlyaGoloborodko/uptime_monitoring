@@ -3,9 +3,8 @@ from typing import Literal, Type
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.app.monitoring import RequestConfig
 from backend.app.monitoring.services.ping import Ping
-from backend.app.monitoring.models import RequestConfigBase, RequestConfig
+from backend.app.monitoring import RequestConfigBase, RequestConfig
 
 from backend.app.core.db import get_session
 
