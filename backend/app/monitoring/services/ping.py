@@ -18,7 +18,7 @@ class Ping(PingConfig):
                       client: AsyncClient):
         http_method = getattr(client, self.method)
         try:
-            response = await http_method(url=self.safe_url(self.url), params=self.params)
+            response = await http_method(url=self.normalize_url(self.url), params=self.params)
             response.raise_for_status()
             result = dict(
                 status_code=response.status_code,
@@ -36,7 +36,7 @@ class Ping(PingConfig):
         return result
 
     @staticmethod
-    def safe_url(url: str) -> str:
+    def normalize_url(url: str) -> str:
         if not url.startswith(('http://', 'https://')):
             return f'https://{url}'
         return url
