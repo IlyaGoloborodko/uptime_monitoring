@@ -37,7 +37,7 @@ async def save_config(
 @router.post("/get_config/")
 async def get_config(config_id: str,
                      session: AsyncSession = Depends(get_session)
-                     ) -> RequestConfig:
+                     ) -> Type[RequestConfig]:
     db_config = await session.get(RequestConfig, config_id)
     if not db_config:
         raise HTTPException(status_code=404, detail="Config not found")
