@@ -39,6 +39,7 @@ services:
     build: .
     ports:
       - "80:80"
+      - "52334:52334"
     volumes:
       - .:/app
     depends_on:
